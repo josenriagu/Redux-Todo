@@ -1,14 +1,19 @@
+import uuid from 'uuid';
 // Create an action type
 export const ADD_TODO = 'ADD_TODO'; // action type
 export const DELETE_TODO = 'DELETE_TODO';
 export const MARK_COMPLETED = 'MARK_COMPLETED';
 
 // Define the action creator
-export const addTodo = TaskTodo => { // action creator
-    console.log(TaskTodo);
+export const addTodo = taskTodo => { // action creator
+    console.log(taskTodo);
     return { // action
         type: ADD_TODO,
-        payload: TaskTodo
+        payload: {
+            id: uuid(),
+            task: taskTodo,
+            completed: false
+        }
     };
 }
 export const deleteTodo = id => {
@@ -21,5 +26,5 @@ export const markCompleted = id => {
     return {
         type: MARK_COMPLETED,
         payload: { id }
-    }
+    };
 }
