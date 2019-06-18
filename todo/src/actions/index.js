@@ -1,16 +1,26 @@
 import uuid from 'uuid';
 // Create an action type
 export const ADD_TODO = 'ADD_TODO'; // action type
+export const UPDATE_TODO = 'UPDATE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const MARK_COMPLETED = 'MARK_COMPLETED';
 
 // Define the action creator
 export const addTodo = taskTodo => { // action creator
-    console.log(taskTodo);
     return { // action
         type: ADD_TODO,
         payload: {
             id: uuid(),
+            task: taskTodo,
+            completed: false
+        }
+    };
+}
+export const updateTodo = (taskTodo, id) => {
+    return {
+        type: UPDATE_TODO,
+        payload: {
+            id: id,
             task: taskTodo,
             completed: false
         }
