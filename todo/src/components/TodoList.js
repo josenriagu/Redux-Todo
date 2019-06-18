@@ -14,7 +14,7 @@ class TodoList extends Component {
         // prevents empty tasks from being created
         if (this.state.newTodo !== '') {
             // instantiates new todo objedt and calls addTodo method on it
-            this.props.addTodo({ task: this.state.newTodo, id: uuid(), completed: false });
+            this.props.addTodo(this.state.newTodo);
             // resets the state slice to clear the input field
             this.setState({ newTodo: '' })
         }
