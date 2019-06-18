@@ -31,14 +31,10 @@ export const reducer = (state = initialState, action) => {
         case MARK_COMPLETED:
             return {
                 ...state,
-                todoList: state.todoList.map(todo =>
-                {
+                todoList: state.todoList.map(todo => {
                     if (todo.id === action.payload.id) {
-                        return {
-                            id: todo.id,
-                            task: todo.task,
-                            completed: !todo.completed
-                        }
+                        const completeQuote = Object.assign({}, todo, { completed: !todo.completed })
+                        return completeQuote
                     }
                     return todo;
                 })
