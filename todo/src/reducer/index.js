@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, MARK_COMPLETED } from '../actions';
+import { ADD_TODO, UPDATE_TODO, DELETE_TODO, MARK_COMPLETED } from '../actions';
 
 
 // A reducer is just a state tree that can be used to recreate new state trees when triggered by actions
@@ -23,6 +23,17 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 todoList: [...state.todoList, action.payload] //action has type and payload. the payload holds the state changing value for each accompanying action.
             };
+        case UPDATE_TODO:
+            return {
+                ...state,
+                todoList: state.todoList.map(todo => {
+                    if (todo.id === action.payload.id) {
+                        const updatedTodo = Object.assign({}, todo, { task: action.payload.task })
+                        return updatedTodo
+                    }
+                    return todo;
+                })
+            };
         case DELETE_TODO:
             return {
                 ...state,
@@ -33,8 +44,8 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 todoList: state.todoList.map(todo => {
                     if (todo.id === action.payload.id) {
-                        const completeQuote = Object.assign({}, todo, { completed: !todo.completed })
-                        return completeQuote
+                        const completeTodo = Object.assign({}, todo, { completed: !todo.completed })
+                        return completeTodo
                     }
                     return todo;
                 })
