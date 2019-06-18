@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.App {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+.todo-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.todo {
+  width: calc(15% - 2rem);
+  padding: 0 1rem 1rem 1rem;
+}
+.todo h3 {
+  margin: 0.1rem 0rem;
+}
+.actions {
+  margin: 0.1rem 0rem;
+}
