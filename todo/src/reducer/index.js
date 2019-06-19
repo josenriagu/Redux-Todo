@@ -1,17 +1,7 @@
-import { ADD_TODO, UPDATE_TODO, DELETE_TODO, MARK_COMPLETED } from '../actions';
-
+import { ADD_TODO, UPDATE_TODO, DELETE_TODO, MARK_COMPLETED, TOGGLE_EDIT } from '../actions';
+import { initialState } from './../dummyData';
 
 // A reducer is just a state tree that can be used to recreate new state trees when triggered by actions
-
-const initialState = {
-    todoList: [
-        {
-            task: 'Learn Redux',
-            id: 0,
-            completed: false
-        }
-    ],
-}
 
 // state = initialState gives a fallback value for when the component renders without the state
 // switch tests for each type of the action creator function and maps them onto cases
@@ -44,11 +34,25 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 todoList: state.todoList.map(todo => {
                     if (todo.id === action.payload.id) {
-                        const completeTodo = Object.assign({}, todo, { completed: !todo.completed })
-                        return completeTodo
+
+                        // Using Object.assign method
+                        // const completeTodo = Object.assign({}, todo, { completed: !todo.completed })
+                        // return completeTodo
+
+                        // newer and simpler syntax - using the SPREAD operator
+                        return { ...todo, completed: !todo.completed }
                     }
                     return todo;
                 })
+            }
+        case TOGGLE_EDIT:
+            return {
+                ...state,
+                form: {
+                    ...state.form,
+                    isEditing: true,
+                    onEdit: action.payload.id
+                }
             }
         default:
             return state;
