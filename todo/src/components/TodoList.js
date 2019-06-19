@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
 import { connect } from 'react-redux';
-import { addTodo, updateTodo, deleteTodo, markCompleted } from '../actions';
+import { addTodo, updateTodo, deleteTodo, markCompleted, toggleEdit } from '../actions';
 import Todo from './Todo';
 
 class TodoList extends Component {
-    state = {
-        isEditing: false,
-        onEdit: ""
-    }
     // create refs
     todoRef = React.createRef();
 
@@ -26,14 +22,15 @@ class TodoList extends Component {
     setEdit = (e, task, id) => {
         e.preventDefault();
         this.todoRef.current.value = task;
-        this.setState({ ...this.state, editing: true, onEdit: id })
+        this.props.toggleEdit(id)
     }
     updateTodo = () => {
         // prevents edited task from being returned as empty
         if (this.todoRef.current.value !== '') {
-            this.props.updateTodo(this.todoRef.current.value, this.state.onEdit);
+            this.props.updateTodo(this.todoRef.current.value, this.props.form.onEdit);
+            // send null to the reducer so it sets the onEdit to null and resets the edting to false.
+            this.props.toggleEdit(null);
             this.todoRef.current.value = "";
-            this.setState({ ...this.state, editing: false, onEdit: "" })
         }
     }
 
@@ -45,7 +42,7 @@ class TodoList extends Component {
                         key={uuid()}
                         todo={todo}
                         index={index}
-                        onEdit={this.state.onEdit}
+                        onEdit={this.props.form.onEdit}
                         setEdit={this.setEdit}
                         deleteTodo={this.props.deleteTodo}
                         markCompleted={this.props.markCompleted}
@@ -57,7 +54,7 @@ class TodoList extends Component {
                     ref={this.todoRef}
                 />
                 {
-                    (this.state.editing)
+                    (this.props.form.onEdit)
                         ?
                         <button
                             onClick={this.updateTodo}
@@ -79,8 +76,9 @@ class TodoList extends Component {
 
 const mapStateToProps = state => {
     return {
-        todoList: state.todoList
+        todoList: state.todoList,
+        form: state.form
     };
 };
 
-export default connect(mapStateToProps, { addTodo, updateTodo, deleteTodo, markCompleted })(TodoList);
+export default connect(mapStateToProps, { addTodo, updateTodo, deleteTodo, markCompleted, toggleEdit })(TodoList);
